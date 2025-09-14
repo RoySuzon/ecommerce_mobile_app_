@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:ecommerce_app/app/di/injector.dart';
 import 'package:ecommerce_app/features/auth/presentations/auth_page.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +25,14 @@ class AppRouter {
       case dashboardRoute:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                final res = await sl<Dio>().get('/product');
+                if (res.statusCode == 200) {
+                  log(res.data.toString());
+                }
+              },
+            ),
             appBar: AppBar(
               title: const Text('Dashboard Screen'),
             ),

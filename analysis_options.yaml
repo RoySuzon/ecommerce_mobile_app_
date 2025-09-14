@@ -3,6 +3,7 @@ analyzer:
   errors:
     always_use_package_imports: ignore
     avoid_catches_without_on_clauses: ignore
+    avoid_dynamic_calls: ignore
     prefer_final_locals: ignore
     prefer_null_aware_method_calls: ignore
     sort_constructors_first: ignore

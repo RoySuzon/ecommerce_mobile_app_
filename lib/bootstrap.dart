@@ -48,7 +48,7 @@ Future<void> bootstrap(
 
   var login = await isLoggedIn();
 
-  runApp(await builder(!login));
+  runApp(await builder(login));
 }
 
 Future<bool> isLoggedIn() async {
