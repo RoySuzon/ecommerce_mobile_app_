@@ -39,6 +39,13 @@ class App extends StatelessWidget {
             () => DropdownRemoteDataSource(dio: sl<Dio>()).fetchAvailability(),
           ),
         ),
+        BlocProvider<DropdownBloc<CommonModel>>(
+          create: (_) => createDropdownBloc(
+            () => DropdownRemoteDataSource(
+              dio: sl<Dio>(),
+            ).fetchCommonDropdown('specificationType'),
+          ),
+        ),
         BlocProvider<DropdownBloc<Map<String, dynamic>>>(
           create: (_) => createDropdownBloc(
             () async {

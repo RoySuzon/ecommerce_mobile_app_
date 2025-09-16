@@ -538,7 +538,8 @@ as String,
 /// @nodoc
 mixin _$AvailabilityModel {
 
- int get id; String get status;
+// required int id,
+ String get status;
 /// Create a copy of AvailabilityModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -551,16 +552,16 @@ $AvailabilityModelCopyWith<AvailabilityModel> get copyWith => _$AvailabilityMode
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AvailabilityModel&&(identical(other.id, id) || other.id == id)&&(identical(other.status, status) || other.status == status));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AvailabilityModel&&(identical(other.status, status) || other.status == status));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,status);
+int get hashCode => Object.hash(runtimeType,status);
 
 @override
 String toString() {
-  return 'AvailabilityModel(id: $id, status: $status)';
+  return 'AvailabilityModel(status: $status)';
 }
 
 
@@ -571,7 +572,7 @@ abstract mixin class $AvailabilityModelCopyWith<$Res>  {
   factory $AvailabilityModelCopyWith(AvailabilityModel value, $Res Function(AvailabilityModel) _then) = _$AvailabilityModelCopyWithImpl;
 @useResult
 $Res call({
- int id, String status
+ String status
 });
 
 
@@ -588,10 +589,9 @@ class _$AvailabilityModelCopyWithImpl<$Res>
 
 /// Create a copy of AvailabilityModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? status = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,}) {
   return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -674,10 +674,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String status)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String status)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AvailabilityModel() when $default != null:
-return $default(_that.id,_that.status);case _:
+return $default(_that.status);case _:
   return orElse();
 
 }
@@ -695,10 +695,10 @@ return $default(_that.id,_that.status);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String status)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String status)  $default,) {final _that = this;
 switch (_that) {
 case _AvailabilityModel():
-return $default(_that.id,_that.status);}
+return $default(_that.status);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -712,10 +712,10 @@ return $default(_that.id,_that.status);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String status)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String status)?  $default,) {final _that = this;
 switch (_that) {
 case _AvailabilityModel() when $default != null:
-return $default(_that.id,_that.status);case _:
+return $default(_that.status);case _:
   return null;
 
 }
@@ -727,10 +727,10 @@ return $default(_that.id,_that.status);case _:
 @JsonSerializable()
 
 class _AvailabilityModel implements AvailabilityModel {
-  const _AvailabilityModel({required this.id, required this.status});
+  const _AvailabilityModel({required this.status});
   factory _AvailabilityModel.fromJson(Map<String, dynamic> json) => _$AvailabilityModelFromJson(json);
 
-@override final  int id;
+// required int id,
 @override final  String status;
 
 /// Create a copy of AvailabilityModel
@@ -746,16 +746,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AvailabilityModel&&(identical(other.id, id) || other.id == id)&&(identical(other.status, status) || other.status == status));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AvailabilityModel&&(identical(other.status, status) || other.status == status));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,status);
+int get hashCode => Object.hash(runtimeType,status);
 
 @override
 String toString() {
-  return 'AvailabilityModel(id: $id, status: $status)';
+  return 'AvailabilityModel(status: $status)';
 }
 
 
@@ -766,7 +766,7 @@ abstract mixin class _$AvailabilityModelCopyWith<$Res> implements $AvailabilityM
   factory _$AvailabilityModelCopyWith(_AvailabilityModel value, $Res Function(_AvailabilityModel) _then) = __$AvailabilityModelCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String status
+ String status
 });
 
 
@@ -783,10 +783,269 @@ class __$AvailabilityModelCopyWithImpl<$Res>
 
 /// Create a copy of AvailabilityModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? status = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,}) {
   return _then(_AvailabilityModel(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$CommonModel {
+
+ int get id; String get name;
+/// Create a copy of CommonModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CommonModelCopyWith<CommonModel> get copyWith => _$CommonModelCopyWithImpl<CommonModel>(this as CommonModel, _$identity);
+
+  /// Serializes this CommonModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommonModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,name);
+
+@override
+String toString() {
+  return 'CommonModel(id: $id, name: $name)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CommonModelCopyWith<$Res>  {
+  factory $CommonModelCopyWith(CommonModel value, $Res Function(CommonModel) _then) = _$CommonModelCopyWithImpl;
+@useResult
+$Res call({
+ int id, String name
+});
+
+
+
+
+}
+/// @nodoc
+class _$CommonModelCopyWithImpl<$Res>
+    implements $CommonModelCopyWith<$Res> {
+  _$CommonModelCopyWithImpl(this._self, this._then);
+
+  final CommonModel _self;
+  final $Res Function(CommonModel) _then;
+
+/// Create a copy of CommonModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,}) {
+  return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [CommonModel].
+extension CommonModelPatterns on CommonModel {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CommonModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _CommonModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CommonModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _CommonModel():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CommonModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _CommonModel() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _CommonModel() when $default != null:
+return $default(_that.id,_that.name);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name)  $default,) {final _that = this;
+switch (_that) {
+case _CommonModel():
+return $default(_that.id,_that.name);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name)?  $default,) {final _that = this;
+switch (_that) {
+case _CommonModel() when $default != null:
+return $default(_that.id,_that.name);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _CommonModel implements CommonModel {
+  const _CommonModel({required this.id, required this.name});
+  factory _CommonModel.fromJson(Map<String, dynamic> json) => _$CommonModelFromJson(json);
+
+@override final  int id;
+@override final  String name;
+
+/// Create a copy of CommonModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$CommonModelCopyWith<_CommonModel> get copyWith => __$CommonModelCopyWithImpl<_CommonModel>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CommonModelToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommonModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,name);
+
+@override
+String toString() {
+  return 'CommonModel(id: $id, name: $name)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$CommonModelCopyWith<$Res> implements $CommonModelCopyWith<$Res> {
+  factory _$CommonModelCopyWith(_CommonModel value, $Res Function(_CommonModel) _then) = __$CommonModelCopyWithImpl;
+@override @useResult
+$Res call({
+ int id, String name
+});
+
+
+
+
+}
+/// @nodoc
+class __$CommonModelCopyWithImpl<$Res>
+    implements _$CommonModelCopyWith<$Res> {
+  __$CommonModelCopyWithImpl(this._self, this._then);
+
+  final _CommonModel _self;
+  final $Res Function(_CommonModel) _then;
+
+/// Create a copy of CommonModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,}) {
+  return _then(_CommonModel(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

@@ -29,10 +29,13 @@ Map<String, dynamic> _$CategoryModelToJson(_CategoryModel instance) =>
     <String, dynamic>{'id': instance.id, 'name': instance.name};
 
 _AvailabilityModel _$AvailabilityModelFromJson(Map<String, dynamic> json) =>
-    _AvailabilityModel(
-      id: (json['id'] as num).toInt(),
-      status: json['status'] as String,
-    );
+    _AvailabilityModel(status: json['status'] as String);
 
 Map<String, dynamic> _$AvailabilityModelToJson(_AvailabilityModel instance) =>
-    <String, dynamic>{'id': instance.id, 'status': instance.status};
+    <String, dynamic>{'status': instance.status};
+
+_CommonModel _$CommonModelFromJson(Map<String, dynamic> json) =>
+    _CommonModel(id: (json['id'] as num).toInt(), name: json['name'] as String);
+
+Map<String, dynamic> _$CommonModelToJson(_CommonModel instance) =>
+    <String, dynamic>{'id': instance.id, 'name': instance.name};

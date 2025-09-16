@@ -29,10 +29,22 @@ sealed class CategoryModel with _$CategoryModel {
 @freezed
 sealed class AvailabilityModel with _$AvailabilityModel {
   const factory AvailabilityModel({
-    required int id,
+    // required int id,
     required String status,
   }) = _AvailabilityModel;
 
   factory AvailabilityModel.fromJson(Map<String, dynamic> json) =>
       _$AvailabilityModelFromJson(json);
+}
+
+
+@freezed
+sealed class CommonModel with _$CommonModel {
+  const factory CommonModel({
+    required int id,
+    required String name,
+  }) = _CommonModel;
+
+  factory CommonModel.fromJson(Map<String, dynamic> json) =>
+      _$CommonModelFromJson(json);
 }

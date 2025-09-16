@@ -108,6 +108,7 @@ class MyPage extends StatelessWidget {
                   title: 'Product Name',
                   label: 'Enter Product Name',
                   keyboardType: TextInputType.text,
+                  maxLines: 2,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter product name';
@@ -251,6 +252,30 @@ class MyPage extends StatelessWidget {
                   ],
                 ),
 
+                const SizedBox(height: 12),
+                BlocBuilder<
+                  DropdownBloc<CommonModel>,
+                  DropdownState<CommonModel>
+                >(
+                  builder: (context, state) {
+                    final bloc = context
+                        .read<DropdownBloc<CommonModel>>();
+                    return CustomDropdown<CommonModel>(
+                      needExpanded: true,
+                      title: 'Specific Type',
+                      bloc: bloc,
+                      hintText: 'Select Specific Type',
+                      // isExpanable: true,
+                      itemToString: (c) => c.name,
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please select a Specific Type';
+                        }
+                        return null;
+                      },
+                    );
+                  },
+                ),
                 const SizedBox(height: 12),
 
                 const SizedBox(height: 12),
