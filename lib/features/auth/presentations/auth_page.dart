@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:ecommerce_app/features/components/generic_dropdown/cubit/dropdown_bloc.dart';
 import 'package:ecommerce_app/features/components/generic_dropdown/cubit/dropdown_state.dart';
 import 'package:ecommerce_app/features/components/generic_dropdown/view/generic_dropdown_view.dart';
@@ -18,6 +19,8 @@ class MyPage extends StatelessWidget {
     final _nameController = TextEditingController();
     final _descriptionController = TextEditingController();
     List<Specification> specifications = [];
+
+    List<CommonModel> specifics = [];
 
     const availableKeys = [
       // General
@@ -153,7 +156,7 @@ class MyPage extends StatelessWidget {
                                 bloc: bloc,
                                 hintText: 'Select Brand',
                                 itemToString: (b) => b.name,
-                                img: (b) => b.logoUrl,
+                                // img: (b) => b.logoUrl!,
                                 validator: (value) {
                                   if (value == null) {
                                     return 'Please select a brand';
@@ -258,8 +261,7 @@ class MyPage extends StatelessWidget {
                   DropdownState<CommonModel>
                 >(
                   builder: (context, state) {
-                    final bloc = context
-                        .read<DropdownBloc<CommonModel>>();
+                    final bloc = context.read<DropdownBloc<CommonModel>>();
                     return CustomDropdown<CommonModel>(
                       needExpanded: true,
                       title: 'Specific Type',

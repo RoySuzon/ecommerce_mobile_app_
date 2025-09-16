@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BrandModel {
 
- int get id; String get name; String get logoUrl;
+ int get id; String get name; String? get logoUrl;
 /// Create a copy of BrandModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $BrandModelCopyWith<$Res>  {
   factory $BrandModelCopyWith(BrandModel value, $Res Function(BrandModel) _then) = _$BrandModelCopyWithImpl;
 @useResult
 $Res call({
- int id, String name, String logoUrl
+ int id, String name, String? logoUrl
 });
 
 
@@ -65,12 +65,12 @@ class _$BrandModelCopyWithImpl<$Res>
 
 /// Create a copy of BrandModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? logoUrl = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? logoUrl = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,logoUrl: null == logoUrl ? _self.logoUrl : logoUrl // ignore: cast_nullable_to_non_nullable
-as String,
+as String,logoUrl: freezed == logoUrl ? _self.logoUrl : logoUrl // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -152,7 +152,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String logoUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String? logoUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BrandModel() when $default != null:
 return $default(_that.id,_that.name,_that.logoUrl);case _:
@@ -173,7 +173,7 @@ return $default(_that.id,_that.name,_that.logoUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String logoUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String? logoUrl)  $default,) {final _that = this;
 switch (_that) {
 case _BrandModel():
 return $default(_that.id,_that.name,_that.logoUrl);}
@@ -190,7 +190,7 @@ return $default(_that.id,_that.name,_that.logoUrl);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String logoUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String? logoUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _BrandModel() when $default != null:
 return $default(_that.id,_that.name,_that.logoUrl);case _:
@@ -205,12 +205,12 @@ return $default(_that.id,_that.name,_that.logoUrl);case _:
 @JsonSerializable()
 
 class _BrandModel implements BrandModel {
-  const _BrandModel({required this.id, required this.name, required this.logoUrl});
+  const _BrandModel({required this.id, required this.name, this.logoUrl});
   factory _BrandModel.fromJson(Map<String, dynamic> json) => _$BrandModelFromJson(json);
 
 @override final  int id;
 @override final  String name;
-@override final  String logoUrl;
+@override final  String? logoUrl;
 
 /// Create a copy of BrandModel
 /// with the given fields replaced by the non-null parameter values.
@@ -245,7 +245,7 @@ abstract mixin class _$BrandModelCopyWith<$Res> implements $BrandModelCopyWith<$
   factory _$BrandModelCopyWith(_BrandModel value, $Res Function(_BrandModel) _then) = __$BrandModelCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name, String logoUrl
+ int id, String name, String? logoUrl
 });
 
 
@@ -262,12 +262,12 @@ class __$BrandModelCopyWithImpl<$Res>
 
 /// Create a copy of BrandModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? logoUrl = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? logoUrl = freezed,}) {
   return _then(_BrandModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,logoUrl: null == logoUrl ? _self.logoUrl : logoUrl // ignore: cast_nullable_to_non_nullable
-as String,
+as String,logoUrl: freezed == logoUrl ? _self.logoUrl : logoUrl // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

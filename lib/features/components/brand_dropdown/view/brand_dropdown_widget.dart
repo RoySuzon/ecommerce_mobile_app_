@@ -23,17 +23,18 @@ class BrandDropdown extends StatelessWidget {
                   value: brand.id,
                   child: Row(
                     children: [
-                      Image.network(
-                        brand.logoUrl,
-                        width: 50,
-                        height: 30,
-                        fit: BoxFit.contain,
-                        errorBuilder: (_, _, _) => const Icon(
-                          Icons.image_not_supported,
-                          size: 30,
-                          color: Colors.grey,
+                      if (brand.logoUrl != null)
+                        Image.network(
+                          brand.logoUrl!,
+                          width: 50,
+                          height: 30,
+                          fit: BoxFit.contain,
+                          errorBuilder: (_, _, _) => const Icon(
+                            Icons.image_not_supported,
+                            size: 30,
+                            color: Colors.grey,
+                          ),
                         ),
-                      ),
                       const SizedBox(width: 10),
                       Text(brand.name),
                     ],

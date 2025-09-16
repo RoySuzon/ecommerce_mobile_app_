@@ -9,7 +9,7 @@ part of 'dropdown_models.dart';
 _BrandModel _$BrandModelFromJson(Map<String, dynamic> json) => _BrandModel(
   id: (json['id'] as num).toInt(),
   name: json['name'] as String,
-  logoUrl: json['logoUrl'] as String,
+  logoUrl: json['logoUrl'] as String?,
 );
 
 Map<String, dynamic> _$BrandModelToJson(_BrandModel instance) =>

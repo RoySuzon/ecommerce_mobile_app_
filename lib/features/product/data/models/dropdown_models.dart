@@ -8,7 +8,7 @@ sealed class BrandModel with _$BrandModel {
   const factory BrandModel({
     required int id,
     required String name,
-    required String logoUrl,
+    String? logoUrl,
   }) = _BrandModel;
 
   factory BrandModel.fromJson(Map<String, dynamic> json) =>
@@ -36,7 +36,6 @@ sealed class AvailabilityModel with _$AvailabilityModel {
   factory AvailabilityModel.fromJson(Map<String, dynamic> json) =>
       _$AvailabilityModelFromJson(json);
 }
-
 
 @freezed
 sealed class CommonModel with _$CommonModel {
