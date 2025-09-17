@@ -1,8 +1,11 @@
 import 'dart:developer';
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:dio/dio.dart';
+import 'package:drop_down_search_field/drop_down_search_field.dart';
+import 'package:ecommerce_app/app/di/injector.dart';
 import 'package:ecommerce_app/features/components/generic_dropdown/cubit/dropdown_bloc.dart';
 import 'package:ecommerce_app/features/components/generic_dropdown/cubit/dropdown_state.dart';
 import 'package:ecommerce_app/features/components/generic_dropdown/view/generic_dropdown_view.dart';
+import 'package:ecommerce_app/features/product/data/datasource/dropdown_data_source.dart';
 import 'package:ecommerce_app/features/product/data/models/dropdown_models.dart';
 import 'package:ecommerce_app/features/widgets/custom_textfield.dart';
 import 'package:ecommerce_app/features/widgets/specification_widget.dart';
@@ -106,6 +109,29 @@ class MyPage extends StatelessWidget {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               children: [
+                DropDownSearchField<BrandModel>(
+                  debounceDuration: const Duration(milliseconds: 800),
+                  suggestionsCallback: (pattern) async {
+                    return DropdownRemoteDataSource(
+                      dio: Dio(
+                        BaseOptions(baseUrl: "https://api.yourserver.com"),
+                      ),
+                    ).fetchBrands();
+                  },
+                  itemBuilder: (context, BrandModel suggestion) {
+                    return ListTile(
+                      leading: const Icon(Icons.shopping_cart),
+                      title: Text(suggestion.name),
+                    );
+                  },
+                  onSuggestionSelected: (BrandModel suggestion) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Selected: ${suggestion.name}")),
+                    );
+                  },
+                  displayAllSuggestionWhenTap: true,
+                  isMultiSelectDropdown: false,
+                ),
                 CustomTextFormField(
                   controller: _nameController,
                   title: 'Product Name',
