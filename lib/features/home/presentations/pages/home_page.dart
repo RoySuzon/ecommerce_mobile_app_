@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/app/core/route/app_route.dart';
 import 'package:ecommerce_app/features/home/presentations/bloc/dashboard_bloc.dart';
 import 'package:ecommerce_app/features/home/presentations/bloc/dashboard_event.dart';
 import 'package:ecommerce_app/features/home/presentations/bloc/dashboard_state.dart';
@@ -73,7 +74,7 @@ class _DashboardBody extends StatelessWidget {
             title: 'Add Product',
             icon: Icons.add_box,
             color: Colors.blue,
-            onTap: () => Navigator.pushNamed(context, '/add-product'),
+            onTap: () => Navigator.pushNamed(context, AppRouter.addproduct),
           ),
           DashboardItem(
             title: 'Add Category',

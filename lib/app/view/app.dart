@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/app/core/route/app_route.dart';
+import 'package:ecommerce_app/app/core/route/common_pages/error_page.dart';
 import 'package:ecommerce_app/bootstrap.dart';
 import 'package:ecommerce_app/l10n/l10n.dart';
 import 'package:flutter/material.dart';
