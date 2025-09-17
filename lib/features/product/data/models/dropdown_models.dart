@@ -40,8 +40,14 @@ sealed class AvailabilityModel with _$AvailabilityModel {
 @freezed
 sealed class CommonModel with _$CommonModel {
   const factory CommonModel({
-    required int id,
-    required String name,
+    String? name,
+    num? id,
+    String? url,
+    String? logoUrl,
+    String? description,
+    String? type,
+    String? field,
+    String? value,
   }) = _CommonModel;
 
   factory CommonModel.fromJson(Map<String, dynamic> json) =>

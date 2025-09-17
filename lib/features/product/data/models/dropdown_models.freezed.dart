@@ -797,7 +797,7 @@ as String,
 /// @nodoc
 mixin _$CommonModel {
 
- int get id; String get name;
+ String? get name; num? get id; String? get url; String? get logoUrl; String? get description; String? get type; String? get field; String? get value;
 /// Create a copy of CommonModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -810,16 +810,16 @@ $CommonModelCopyWith<CommonModel> get copyWith => _$CommonModelCopyWithImpl<Comm
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommonModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommonModel&&(identical(other.name, name) || other.name == name)&&(identical(other.id, id) || other.id == id)&&(identical(other.url, url) || other.url == url)&&(identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl)&&(identical(other.description, description) || other.description == description)&&(identical(other.type, type) || other.type == type)&&(identical(other.field, field) || other.field == field)&&(identical(other.value, value) || other.value == value));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name);
+int get hashCode => Object.hash(runtimeType,name,id,url,logoUrl,description,type,field,value);
 
 @override
 String toString() {
-  return 'CommonModel(id: $id, name: $name)';
+  return 'CommonModel(name: $name, id: $id, url: $url, logoUrl: $logoUrl, description: $description, type: $type, field: $field, value: $value)';
 }
 
 
@@ -830,7 +830,7 @@ abstract mixin class $CommonModelCopyWith<$Res>  {
   factory $CommonModelCopyWith(CommonModel value, $Res Function(CommonModel) _then) = _$CommonModelCopyWithImpl;
 @useResult
 $Res call({
- int id, String name
+ String? name, num? id, String? url, String? logoUrl, String? description, String? type, String? field, String? value
 });
 
 
@@ -847,11 +847,17 @@ class _$CommonModelCopyWithImpl<$Res>
 
 /// Create a copy of CommonModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,Object? id = freezed,Object? url = freezed,Object? logoUrl = freezed,Object? description = freezed,Object? type = freezed,Object? field = freezed,Object? value = freezed,}) {
   return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,
+name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as num?,url: freezed == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String?,logoUrl: freezed == logoUrl ? _self.logoUrl : logoUrl // ignore: cast_nullable_to_non_nullable
+as String?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String?,field: freezed == field ? _self.field : field // ignore: cast_nullable_to_non_nullable
+as String?,value: freezed == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -933,10 +939,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? name,  num? id,  String? url,  String? logoUrl,  String? description,  String? type,  String? field,  String? value)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CommonModel() when $default != null:
-return $default(_that.id,_that.name);case _:
+return $default(_that.name,_that.id,_that.url,_that.logoUrl,_that.description,_that.type,_that.field,_that.value);case _:
   return orElse();
 
 }
@@ -954,10 +960,10 @@ return $default(_that.id,_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? name,  num? id,  String? url,  String? logoUrl,  String? description,  String? type,  String? field,  String? value)  $default,) {final _that = this;
 switch (_that) {
 case _CommonModel():
-return $default(_that.id,_that.name);}
+return $default(_that.name,_that.id,_that.url,_that.logoUrl,_that.description,_that.type,_that.field,_that.value);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -971,10 +977,10 @@ return $default(_that.id,_that.name);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? name,  num? id,  String? url,  String? logoUrl,  String? description,  String? type,  String? field,  String? value)?  $default,) {final _that = this;
 switch (_that) {
 case _CommonModel() when $default != null:
-return $default(_that.id,_that.name);case _:
+return $default(_that.name,_that.id,_that.url,_that.logoUrl,_that.description,_that.type,_that.field,_that.value);case _:
   return null;
 
 }
@@ -986,11 +992,17 @@ return $default(_that.id,_that.name);case _:
 @JsonSerializable()
 
 class _CommonModel implements CommonModel {
-  const _CommonModel({required this.id, required this.name});
+  const _CommonModel({this.name, this.id, this.url, this.logoUrl, this.description, this.type, this.field, this.value});
   factory _CommonModel.fromJson(Map<String, dynamic> json) => _$CommonModelFromJson(json);
 
-@override final  int id;
-@override final  String name;
+@override final  String? name;
+@override final  num? id;
+@override final  String? url;
+@override final  String? logoUrl;
+@override final  String? description;
+@override final  String? type;
+@override final  String? field;
+@override final  String? value;
 
 /// Create a copy of CommonModel
 /// with the given fields replaced by the non-null parameter values.
@@ -1005,16 +1017,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommonModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommonModel&&(identical(other.name, name) || other.name == name)&&(identical(other.id, id) || other.id == id)&&(identical(other.url, url) || other.url == url)&&(identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl)&&(identical(other.description, description) || other.description == description)&&(identical(other.type, type) || other.type == type)&&(identical(other.field, field) || other.field == field)&&(identical(other.value, value) || other.value == value));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name);
+int get hashCode => Object.hash(runtimeType,name,id,url,logoUrl,description,type,field,value);
 
 @override
 String toString() {
-  return 'CommonModel(id: $id, name: $name)';
+  return 'CommonModel(name: $name, id: $id, url: $url, logoUrl: $logoUrl, description: $description, type: $type, field: $field, value: $value)';
 }
 
 
@@ -1025,7 +1037,7 @@ abstract mixin class _$CommonModelCopyWith<$Res> implements $CommonModelCopyWith
   factory _$CommonModelCopyWith(_CommonModel value, $Res Function(_CommonModel) _then) = __$CommonModelCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name
+ String? name, num? id, String? url, String? logoUrl, String? description, String? type, String? field, String? value
 });
 
 
@@ -1042,11 +1054,17 @@ class __$CommonModelCopyWithImpl<$Res>
 
 /// Create a copy of CommonModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = freezed,Object? id = freezed,Object? url = freezed,Object? logoUrl = freezed,Object? description = freezed,Object? type = freezed,Object? field = freezed,Object? value = freezed,}) {
   return _then(_CommonModel(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,
+name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as num?,url: freezed == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String?,logoUrl: freezed == logoUrl ? _self.logoUrl : logoUrl // ignore: cast_nullable_to_non_nullable
+as String?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String?,field: freezed == field ? _self.field : field // ignore: cast_nullable_to_non_nullable
+as String?,value: freezed == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

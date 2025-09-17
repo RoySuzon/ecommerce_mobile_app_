@@ -6,7 +6,10 @@ abstract class DropdownDataSource {
   Future<List<BrandModel>> fetchBrands();
   Future<List<CategoryModel>> fetchCategories();
   Future<List<AvailabilityModel>> fetchAvailability();
-  Future<List<CommonModel>> fetchCommonDropdown(String type);
+  Future<List<CommonModel>> fetchCommonDropdown({
+    required String type,
+    String name,
+  });
 }
 
 class DropdownRemoteDataSource implements DropdownDataSource {
@@ -14,10 +17,10 @@ class DropdownRemoteDataSource implements DropdownDataSource {
   DropdownRemoteDataSource({required this.dio});
 
   @override
-  Future<List<BrandModel>> fetchBrands() async {
+  Future<List<BrandModel>> fetchBrands({String name = ''}) async {
     final response = await dio.get<dynamic>(
-      ApiEndPoints.dropdown,
-      queryParameters: {'type': 'brand'},
+      ApiEndPoints.brand,
+      queryParameters: {'name': name},
     );
     return (response.data['data'] as List)
         .map((e) => BrandModel.fromJson(e as Map<String, dynamic>))
@@ -25,10 +28,10 @@ class DropdownRemoteDataSource implements DropdownDataSource {
   }
 
   @override
-  Future<List<CategoryModel>> fetchCategories() async {
+  Future<List<CategoryModel>> fetchCategories({String name = ''}) async {
     final response = await dio.get<dynamic>(
       ApiEndPoints.category,
-      queryParameters: {'type': 'category'},
+      queryParameters: {'name': name},
     );
     return (response.data['data'] as List)
         .map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
@@ -36,10 +39,10 @@ class DropdownRemoteDataSource implements DropdownDataSource {
   }
 
   @override
-  Future<List<AvailabilityModel>> fetchAvailability() async {
+  Future<List<AvailabilityModel>> fetchAvailability({String name = ''}) async {
     final response = await dio.get<dynamic>(
       ApiEndPoints.dropdown,
-      queryParameters: {'type': 'availability'},
+      queryParameters: {'type': 'availability', name: name},
     );
     return (response.data['data'] as List)
         .map((e) => AvailabilityModel(status: e.toString()))
@@ -47,10 +50,13 @@ class DropdownRemoteDataSource implements DropdownDataSource {
   }
 
   @override
-  Future<List<CommonModel>> fetchCommonDropdown(String type) async {
+  Future<List<CommonModel>> fetchCommonDropdown({
+    required String type,
+    String name = '',
+  }) async {
     final response = await dio.get<dynamic>(
       ApiEndPoints.dropdown,
-      queryParameters: {'type': type},
+      queryParameters: {'type': type, 'name': name},
     );
     return (response.data['data'] as List)
         .map((e) => CommonModel.fromJson(e as Map<String, dynamic>))
