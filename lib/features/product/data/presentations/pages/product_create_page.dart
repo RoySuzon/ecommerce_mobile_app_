@@ -36,207 +36,210 @@ class ProductCreatePage extends StatelessWidget {
         child: Form(
           key: formKey,
           // autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: Column(
-            children: [
-              CustomTextFormField(
-                controller: nameController,
-                title: 'Product Name',
-                label: 'Enter Product Name',
-                maxLines: 2,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter product name';
-                  }
-                  return null;
-                },
-              ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                CustomTextFormField(
+                  controller: nameController,
+                  title: 'Product Name',
+                  label: 'Enter Product Name',
+                  maxLines: 2,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter product name';
+                    }
+                    return null;
+                  },
+                ),
 
-              const SizedBox(height: 12),
-              CustomTextFormField(
-                controller: descriptionController,
-                title: 'Product Description',
-                label: 'Enter Product Description',
-                keyboardType: TextInputType.multiline,
-                maxLines: 4,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter product description';
-                  }
-                  return null;
-                },
-              ),
+                const SizedBox(height: 12),
+                CustomTextFormField(
+                  controller: descriptionController,
+                  title: 'Product Description',
+                  label: 'Enter Product Description',
+                  keyboardType: TextInputType.multiline,
+                  maxLines: 4,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter product description';
+                    }
+                    return null;
+                  },
+                ),
 
-              const SizedBox(height: 12),
+                const SizedBox(height: 12),
 
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomDropdown<CommonModel>.searchRequest(
-                      searchRequestLoadingIndicator: const Center(
-                        child: CupertinoActivityIndicator(),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomDropdown<CommonModel>.searchRequest(
+                        searchRequestLoadingIndicator: const Center(
+                          child: CupertinoActivityIndicator(),
+                        ),
+                        hintBuilder: (context, hint, enabled) => Text(hint),
+                        futureRequest: (req) => DropdownRemoteDataSource(
+                          dio: sl<Dio>(),
+                        ).fetchCommonDropdown(type: 'brand', name: req.trim()),
+                        listItemBuilder:
+                            (context, item, isSelected, onItemSelect) =>
+                                customBarTextWithLogo(
+                                  title: item.name ?? '',
+                                  logoUrl: item.logoUrl,
+                                ),
+                        headerBuilder: (context, selectedItem, enabled) =>
+                            customBarTextWithLogo(
+                              title: selectedItem.name ?? '',
+                              logoUrl: selectedItem.logoUrl,
+                            ),
+                        hintText: 'Brand',
+                        onChanged: (value) {
+                          log('changing value to: ${value!.id}');
+                        },
                       ),
-                      hintBuilder: (context, hint, enabled) => Text(hint),
-                      futureRequest: (req) => DropdownRemoteDataSource(
-                        dio: sl<Dio>(),
-                      ).fetchCommonDropdown(type: 'brand', name: req.trim()),
-                      listItemBuilder:
-                          (context, item, isSelected, onItemSelect) =>
-                              customBarTextWithLogo(
-                                title: item.name ?? '',
-                                logoUrl: item.logoUrl,
-                              ),
-                      headerBuilder: (context, selectedItem, enabled) =>
-                          customBarTextWithLogo(
-                            title: selectedItem.name ?? '',
-                            logoUrl: selectedItem.logoUrl,
-                          ),
-                      hintText: 'Brand',
-                      onChanged: (value) {
-                        log('changing value to: ${value!.id}');
-                      },
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: CustomDropdown<CommonModel>.searchRequest(
-                      searchRequestLoadingIndicator: const Center(
-                        child: CupertinoActivityIndicator(),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: CustomDropdown<CommonModel>.searchRequest(
+                        searchRequestLoadingIndicator: const Center(
+                          child: CupertinoActivityIndicator(),
+                        ),
+                        hintBuilder: (context, hint, enabled) => Text(hint),
+                        futureRequest: (req) =>
+                            DropdownRemoteDataSource(
+                              dio: sl<Dio>(),
+                            ).fetchCommonDropdown(
+                              type: 'category',
+                              name: req.trim(),
+                            ),
+                        listItemBuilder:
+                            (context, item, isSelected, onItemSelect) =>
+                                customBarTextWithLogo(
+                                  title: item.name ?? '',
+                                  logoUrl: item.logoUrl,
+                                ),
+                        headerBuilder: (context, selectedItem, enabled) =>
+                            customBarTextWithLogo(
+                              title: selectedItem.name ?? '',
+                            ),
+                        hintText: 'Category',
+                        onChanged: (value) {
+                          log('changing value to: ${value!.id}');
+                        },
                       ),
-                      hintBuilder: (context, hint, enabled) => Text(hint),
-                      futureRequest: (req) =>
-                          DropdownRemoteDataSource(
-                            dio: sl<Dio>(),
-                          ).fetchCommonDropdown(
-                            type: 'category',
-                            name: req.trim(),
-                          ),
-                      listItemBuilder:
-                          (context, item, isSelected, onItemSelect) =>
-                              customBarTextWithLogo(
-                                title: item.name ?? '',
-                                logoUrl: item.logoUrl,
-                              ),
-                      headerBuilder: (context, selectedItem, enabled) =>
-                          customBarTextWithLogo(
-                            title: selectedItem.name ?? '',
-                          ),
-                      hintText: 'Brand',
-                      onChanged: (value) {
-                        log('changing value to: ${value!.id}');
-                      },
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomDropdown<CommonModel>.searchRequest(
-                      searchRequestLoadingIndicator: const Center(
-                        child: CupertinoActivityIndicator(),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomDropdown<CommonModel>.searchRequest(
+                        searchRequestLoadingIndicator: const Center(
+                          child: CupertinoActivityIndicator(),
+                        ),
+                        hintBuilder: (context, hint, enabled) => Text(hint),
+                        futureRequest: (req) =>
+                            DropdownRemoteDataSource(
+                              dio: sl<Dio>(),
+                            ).fetchCommonDropdown(
+                              type: 'availability',
+                              name: req.trim(),
+                            ),
+                        listItemBuilder:
+                            (context, item, isSelected, onItemSelect) =>
+                                customBarTextWithLogo(
+                                  title: item.name ?? '',
+                                  logoUrl: item.logoUrl,
+                                ),
+                        headerBuilder: (context, selectedItem, enabled) =>
+                            customBarTextWithLogo(
+                              title: selectedItem.name ?? '',
+                              logoUrl: selectedItem.logoUrl,
+                            ),
+                        hintText: 'availability',
+                        onChanged: (value) {
+                          log('changing value to: ${value!.name}');
+                        },
                       ),
-                      hintBuilder: (context, hint, enabled) => Text(hint),
-                      futureRequest: (req) =>
-                          DropdownRemoteDataSource(
-                            dio: sl<Dio>(),
-                          ).fetchCommonDropdown(
-                            type: 'availability',
-                            name: req.trim(),
-                          ),
-                      listItemBuilder:
-                          (context, item, isSelected, onItemSelect) =>
-                              customBarTextWithLogo(
-                                title: item.name ?? '',
-                                logoUrl: item.logoUrl,
-                              ),
-                      headerBuilder: (context, selectedItem, enabled) =>
-                          customBarTextWithLogo(
-                            title: selectedItem.name ?? '',
-                            logoUrl: selectedItem.logoUrl,
-                          ),
-                      hintText: 'availability',
-                      onChanged: (value) {
-                        log('changing value to: ${value!.name}');
-                      },
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: CustomDropdown<CommonModel>.searchRequest(
-                      searchRequestLoadingIndicator: const Center(
-                        child: CupertinoActivityIndicator(),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: CustomDropdown<CommonModel>.searchRequest(
+                        searchRequestLoadingIndicator: const Center(
+                          child: CupertinoActivityIndicator(),
+                        ),
+                        hintBuilder: (context, hint, enabled) => Text(
+                          hint,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        futureRequest: (req) =>
+                            DropdownRemoteDataSource(
+                              dio: sl<Dio>(),
+                            ).fetchCommonDropdown(
+                              type: 'specificationType',
+                              name: req.trim(),
+                            ),
+                        listItemBuilder:
+                            (context, item, isSelected, onItemSelect) =>
+                                customBarTextWithLogo(
+                                  title: item.name ?? '',
+                                  logoUrl: item.logoUrl,
+                                ),
+                        headerBuilder: (context, selectedItem, enabled) =>
+                            customBarTextWithLogo(
+                              title: selectedItem.name ?? '',
+                            ),
+                        hintText: 'SpecificationType',
+                        onChanged: (value) {
+                          log('changing value to: ${value!.id}');
+                        },
                       ),
-                      hintBuilder: (context, hint, enabled) => Text(
-                        hint,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      futureRequest: (req) =>
-                          DropdownRemoteDataSource(
-                            dio: sl<Dio>(),
-                          ).fetchCommonDropdown(
-                            type: 'specificationType',
-                            name: req.trim(),
-                          ),
-                      listItemBuilder:
-                          (context, item, isSelected, onItemSelect) =>
-                              customBarTextWithLogo(
-                                title: item.name ?? '',
-                                logoUrl: item.logoUrl,
-                              ),
-                      headerBuilder: (context, selectedItem, enabled) =>
-                          customBarTextWithLogo(
-                            title: selectedItem.name ?? '',
-                          ),
-                      hintText: 'SpecificationType',
-                      onChanged: (value) {
-                        log('changing value to: ${value!.id}');
-                      },
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
 
-              const SizedBox(height: 12),
-              DynamicSpecifications(
-                availableKeys: availableKeys,
-                onSpecificationsChanged: (specification) {
-                  specifications = specification;
-                  log(specification.toString());
-                },
-              ),
+                const SizedBox(height: 12),
+                DynamicSpecifications(
+                  availableKeys: availableKeys,
+                  onSpecificationsChanged: (specification) {
+                    specifications = specification;
+                    log(specification.toString());
+                  },
+                ),
 
-              const SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-              /// 🔹 Log Button
-              FilledButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    // log('Brand: ${brand?.name}');
-                    // log('Category: ${category?.name}');
-                    // log('Availability: ${availability?.status}');
-                    // log("Timescale: ${timescale?['label']}");
+                /// 🔹 Log Button
+                FilledButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      // log('Brand: ${brand?.name}');
+                      // log('Category: ${category?.name}');
+                      // log('Availability: ${availability?.status}');
+                      // log("Timescale: ${timescale?['label']}");
 
-                    final body = {
-                      'name': 'any',
-                      'model': 'any',
-                      'description': 'any',
-                      'deliveryTimescale': 'any',
-                      'specifications': specifications
-                          .map((e) => e.toJson())
-                          .toList(),
-                      'brandId': 'any',
-                      'categoryId': 'any',
-                      'availabilityId': 'any',
-                    };
+                      final body = {
+                        'name': 'any',
+                        'model': 'any',
+                        'description': 'any',
+                        'deliveryTimescale': 'any',
+                        'specifications': specifications
+                            .map((e) => e.toJson())
+                            .toList(),
+                        'brandId': 'any',
+                        'categoryId': 'any',
+                        'availabilityId': 'any',
+                      };
 
-                    log(body.toString());
-                  }
-                },
-                child: const Text('LOG SELECTED VALUES'),
-              ),
-            ],
+                      log(body.toString());
+                    }
+                  },
+                  child: const Text('LOG SELECTED VALUES'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

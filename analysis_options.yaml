@@ -4,6 +4,7 @@ analyzer:
     always_use_package_imports: ignore
     avoid_catches_without_on_clauses: ignore
     avoid_dynamic_calls: ignore
+    inference_failure_on_instance_creation: ignore
     invalid_use_of_visible_for_testing_member: ignore
     prefer_final_locals: ignore
     prefer_null_aware_method_calls: ignore

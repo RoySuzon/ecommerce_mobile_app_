@@ -1,5 +1,5 @@
-import 'package:ecommerce_app/app/core/route/common_pages/animated_not_found_page.dart';
 import 'package:ecommerce_app/app/core/route/common_pages/lost_in_space_page.dart';
+import 'package:ecommerce_app/features/auth/presentations/pages/auth_page.dart';
 import 'package:ecommerce_app/features/home/presentations/pages/home_page.dart';
 import 'package:ecommerce_app/features/product/data/presentations/pages/product_create_page.dart';
 import 'package:flutter/material.dart';
@@ -21,15 +21,11 @@ class AppRouter {
     switch (settings.name) {
       case loginRoute:
         return MaterialPageRoute(
-          builder: (_) => const HomePage(),
+          builder: (_) => const AuthPage(),
         );
       case dashboardRoute:
         return MaterialPageRoute(
-          builder: (_) => Scaffold(
-            appBar: AppBar(
-              title: const Text('Dashboard Screen'),
-            ),
-          ),
+          builder: (_) => const HomePage(),
         );
       case addproduct:
         return MaterialPageRoute(

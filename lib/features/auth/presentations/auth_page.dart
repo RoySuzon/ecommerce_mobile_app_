@@ -1,278 +1,162 @@
-import 'dart:developer';
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
-import 'package:ecommerce_app/app/di/injector.dart';
-import 'package:ecommerce_app/features/product/data/datasource/dropdown_data_source.dart';
-import 'package:ecommerce_app/features/product/data/models/dropdown_models.dart';
-import 'package:ecommerce_app/features/widgets/custom_textfield.dart';
-import 'package:ecommerce_app/features/widgets/specification_widget.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:flutter_riverpod/legacy.dart';
 
-final _formKey = GlobalKey<FormState>();
+// enum AuthMode { login, signup }
 
-class CreateProductForm extends StatefulWidget {
-  const CreateProductForm({super.key});
+// final authModeProvider = StateProvider<AuthMode>((ref) => AuthMode.login);
 
-  @override
-  State<CreateProductForm> createState() => _CreateProductFormState();
-}
+// class AuthPage extends ConsumerWidget {
+//   const AuthPage({super.key});
 
-class _CreateProductFormState extends State<CreateProductForm> {
-  @override
-  Widget build(BuildContext context) {
-    final _nameController = TextEditingController();
-    final _descriptionController = TextEditingController();
-    List<Specification> specifications = [];
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final authMode = ref.watch(authModeProvider);
 
-    List<CommonModel> specifics = [];
+//     final formKey = GlobalKey<FormState>();
+//     final emailController = TextEditingController();
+//     final passwordController = TextEditingController();
+//     final confirmPasswordController = TextEditingController();
 
-    const availableKeys = [
-      'Brand',
-      'Model',
-      'Color',
-      'Weight',
-      'Dimensions',
-      'Warranty'
-    ];
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dropdown Example'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            // autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              children: [
-                CustomTextFormField(
-                  controller: _nameController,
-                  title: 'Product Name',
-                  label: 'Enter Product Name',
-                  maxLines: 2,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter product name';
-                    }
-                    return null;
-                  },
-                ),
+//     void submit() {
+//       if (formKey.currentState!.validate()) {
+//         if (authMode == AuthMode.login) {
+//           debugPrint('Login with ${emailController.text}');
+//           // TODO: Call login usecase
+//         } else {
+//           if (passwordController.text != confirmPasswordController.text) {
+//             ScaffoldMessenger.of(context).showSnackBar(
+//               const SnackBar(content: Text("Passwords do not match")),
+//             );
+//             return;
+//           }
+//           debugPrint('Signup with ${emailController.text}');
+//           // TODO: Call signup usecase
+//         }
+//       }
+//     }
 
-                const SizedBox(height: 12),
-                CustomTextFormField(
-                  controller: _descriptionController,
-                  title: 'Product Description',
-                  label: 'Enter Product Description',
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 4,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter product description';
-                    }
-                    return null;
-                  },
-                ),
+//     return Scaffold(
+//       body: Center(
+//         child: SingleChildScrollView(
+//           padding: const EdgeInsets.all(24),
+//           child: Card(
+//             elevation: 6,
+//             shape: RoundedRectangleBorder(
+//               borderRadius: BorderRadius.circular(16),
+//             ),
+//             child: Padding(
+//               padding: const EdgeInsets.all(20),
+//               child: Form(
+//                 key: formKey,
+//                 child: Column(
+//                   mainAxisSize: MainAxisSize.min,
+//                   children: [
+//                     Text(
+//                       authMode == AuthMode.login ? "Login" : "Sign Up",
+//                       style: Theme.of(context).textTheme.headlineSmall,
+//                     ),
+//                     const SizedBox(height: 24),
 
-                const SizedBox(height: 12),
+//                     // Email
+//                     TextFormField(
+//                       controller: emailController,
+//                       decoration: const InputDecoration(
+//                         labelText: "Email",
+//                         prefixIcon: Icon(Icons.email),
+//                         border: OutlineInputBorder(),
+//                       ),
+//                       keyboardType: TextInputType.emailAddress,
+//                       validator: (value) => value != null && value.contains("@")
+//                           ? null
+//                           : "Enter a valid email",
+//                     ),
+//                     const SizedBox(height: 16),
 
-                Row(
-                  children: [
-                    Expanded(
-                      child: CustomDropdown<CommonModel>.searchRequest(
-                        searchRequestLoadingIndicator: const Center(
-                          child: CupertinoActivityIndicator(),
-                        ),
-                        hintBuilder: (context, hint, enabled) => Text(hint),
-                        futureRequest: (req) => DropdownRemoteDataSource(
-                          dio: sl<Dio>(),
-                        ).fetchCommonDropdown(type: 'brand', name: req.trim()),
-                        listItemBuilder:
-                            (context, item, isSelected, onItemSelect) =>
-                                customBarTextWithLogo(
-                                  title: item.name ?? '',
-                                  logoUrl: item.logoUrl,
-                                ),
-                        headerBuilder: (context, selectedItem, enabled) =>
-                            customBarTextWithLogo(
-                              title: selectedItem.name ?? '',
-                              logoUrl: selectedItem.logoUrl,
-                            ),
-                        hintText: 'Brand',
-                        onChanged: (value) {
-                          log('changing value to: ${value!.id}');
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: CustomDropdown<CommonModel>.searchRequest(
-                        searchRequestLoadingIndicator: const Center(
-                          child: CupertinoActivityIndicator(),
-                        ),
-                        hintBuilder: (context, hint, enabled) => Text(hint),
-                        futureRequest: (req) =>
-                            DropdownRemoteDataSource(
-                              dio: sl<Dio>(),
-                            ).fetchCommonDropdown(
-                              type: 'category',
-                              name: req.trim(),
-                            ),
-                        listItemBuilder:
-                            (context, item, isSelected, onItemSelect) =>
-                                customBarTextWithLogo(
-                                  title: item.name ?? '',
-                                  logoUrl: item.logoUrl,
-                                ),
-                        headerBuilder: (context, selectedItem, enabled) =>
-                            customBarTextWithLogo(
-                              title: selectedItem.name ?? '',
-                            ),
-                        hintText: 'Brand',
-                        onChanged: (value) {
-                          log('changing value to: ${value!.id}');
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: CustomDropdown<CommonModel>.searchRequest(
-                        searchRequestLoadingIndicator: const Center(
-                          child: CupertinoActivityIndicator(),
-                        ),
-                        hintBuilder: (context, hint, enabled) => Text(hint),
-                        futureRequest: (req) =>
-                            DropdownRemoteDataSource(
-                              dio: sl<Dio>(),
-                            ).fetchCommonDropdown(
-                              type: 'availability',
-                              name: req.trim(),
-                            ),
-                        listItemBuilder:
-                            (context, item, isSelected, onItemSelect) =>
-                                customBarTextWithLogo(
-                                  title: item.name ?? '',
-                                  logoUrl: item.logoUrl,
-                                ),
-                        headerBuilder: (context, selectedItem, enabled) =>
-                            customBarTextWithLogo(
-                              title: selectedItem.name ?? '',
-                              logoUrl: selectedItem.logoUrl,
-                            ),
-                        hintText: 'availability',
-                        onChanged: (value) {
-                          log('changing value to: ${value!.name}');
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: CustomDropdown<CommonModel>.searchRequest(
-                        searchRequestLoadingIndicator: const Center(
-                          child: CupertinoActivityIndicator(),
-                        ),
-                        hintBuilder: (context, hint, enabled) => Text(
-                          hint,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        futureRequest: (req) =>
-                            DropdownRemoteDataSource(
-                              dio: sl<Dio>(),
-                            ).fetchCommonDropdown(
-                              type: 'specificationType',
-                              name: req.trim(),
-                            ),
-                        listItemBuilder:
-                            (context, item, isSelected, onItemSelect) =>
-                                customBarTextWithLogo(
-                                  title: item.name ?? '',
-                                  logoUrl: item.logoUrl,
-                                ),
-                        headerBuilder: (context, selectedItem, enabled) =>
-                            customBarTextWithLogo(
-                              title: selectedItem.name ?? '',
-                            ),
-                        hintText: 'SpecificationType',
-                        onChanged: (value) {
-                          log('changing value to: ${value!.id}');
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+//                     // Password
+//                     TextFormField(
+//                       controller: passwordController,
+//                       decoration: const InputDecoration(
+//                         labelText: "Password",
+//                         prefixIcon: Icon(Icons.lock),
+//                         border: OutlineInputBorder(),
+//                       ),
+//                       obscureText: true,
+//                       validator: (value) => value != null && value.length >= 6
+//                           ? null
+//                           : "Password must be 6+ characters",
+//                     ),
+//                     const SizedBox(height: 16),
 
-                const SizedBox(height: 12),
-                DynamicSpecifications(
-                  availableKeys: availableKeys,
-                  onSpecificationsChanged: (specification) {
-                    specifications = specification;
-                    log(specification.toString());
-                  },
-                ),
+//                     // Confirm Password (only for signup)
+//                     if (authMode == AuthMode.signup)
+//                       TextFormField(
+//                         controller: confirmPasswordController,
+//                         decoration: const InputDecoration(
+//                           labelText: "Confirm Password",
+//                           prefixIcon: Icon(Icons.lock_outline),
+//                           border: OutlineInputBorder(),
+//                         ),
+//                         obscureText: true,
+//                         validator: (value) =>
+//                             authMode == AuthMode.signup &&
+//                                 value != passwordController.text
+//                             ? "Passwords do not match"
+//                             : null,
+//                       ),
 
-                const SizedBox(height: 10),
+//                     const SizedBox(height: 24),
 
-                /// 🔹 Log Button
-                FilledButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // log('Brand: ${brand?.name}');
-                      // log('Category: ${category?.name}');
-                      // log('Availability: ${availability?.status}');
-                      // log("Timescale: ${timescale?['label']}");
+//                     // Submit Button
+//                     SizedBox(
+//                       width: double.infinity,
+//                       child: ElevatedButton(
+//                         onPressed: submit,
+//                         style: ElevatedButton.styleFrom(
+//                           padding: const EdgeInsets.symmetric(vertical: 14),
+//                           shape: RoundedRectangleBorder(
+//                             borderRadius: BorderRadius.circular(12),
+//                           ),
+//                         ),
+//                         child: Text(
+//                           authMode == AuthMode.login ? "Login" : "Sign Up",
+//                           style: const TextStyle(fontSize: 16),
+//                         ),
+//                       ),
+//                     ),
 
-                      final body = {
-                        'name': 'any',
-                        'model': 'any',
-                        'description': 'any',
-                        'deliveryTimescale': 'any',
-                        'specifications': specifications
-                            .map((e) => e.toJson())
-                            .toList(),
-                        'brandId': 'any',
-                        'categoryId': 'any',
-                        'availabilityId': 'any',
-                      };
+//                     const SizedBox(height: 16),
 
-                      log(body.toString());
-                    }
-                  },
-                  child: const Text('LOG SELECTED VALUES'),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-Row customBarTextWithLogo({required String title, String? logoUrl}) {
-  return Row(
-    children: [
-      Expanded(
-        child: Text(
-          title,
-        ),
-      ),
-      if (logoUrl != null)
-        CachedNetworkImage(
-          imageUrl: logoUrl,
-          height: 15,
-          width: 30,
-          fit: BoxFit.contain,
-
-          placeholder: (context, url) => const CupertinoActivityIndicator(),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-        ),
-    ],
-  );
-}
+//                     // Switch between login/signup
+//                     Row(
+//                       mainAxisAlignment: MainAxisAlignment.center,
+//                       children: [
+//                         Text(
+//                           authMode == AuthMode.login
+//                               ? "Don’t have an account?"
+//                               : "Already have an account?",
+//                         ),
+//                         TextButton(
+//                           onPressed: () {
+//                             ref
+//                                 .read(authModeProvider.notifier)
+//                                 .state = authMode == AuthMode.login
+//                                 ? AuthMode.signup
+//                                 : AuthMode.login;
+//                           },
+//                           child: Text(
+//                             authMode == AuthMode.login ? "Sign Up" : "Login",
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

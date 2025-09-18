@@ -3,6 +3,7 @@ import 'package:ecommerce_app/app/core/route/common_pages/error_page.dart';
 import 'package:ecommerce_app/bootstrap.dart';
 import 'package:ecommerce_app/l10n/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class App extends StatelessWidget {
   final bool login;
@@ -10,20 +11,22 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+    return ProviderScope(
+      child: MaterialApp(
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          ),
+          useMaterial3: true,
         ),
-        useMaterial3: true,
-      ),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      navigatorKey: navigatorKey,
-      initialRoute: login ? AppRouter.dashboardRoute : AppRouter.loginRoute,
-      onGenerateRoute: AppRouter.generateRoute,
-      onUnknownRoute: (settings) => MaterialPageRoute(
-        builder: (_) => const ErrorPage(message: 'Page not found!'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        navigatorKey: navigatorKey,
+        initialRoute: login ? AppRouter.dashboardRoute : AppRouter.loginRoute,
+        onGenerateRoute: AppRouter.generateRoute,
+        onUnknownRoute: (settings) => MaterialPageRoute(
+          builder: (_) => const ErrorPage(message: 'Page not found!'),
+        ),
       ),
     );
   }
