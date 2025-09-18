@@ -131,6 +131,31 @@ class ProductCreatePage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
+                FutureBuilder(
+                  future:
+                      DropdownRemoteDataSource(
+                        dio: sl<Dio>(),
+                      ).fetchCommonDropdown(
+                        type: 'availability',
+                      ),
+                  builder: (context, asyncSnapshot) {
+                    return CustomDropdown(
+                      listItemBuilder:
+                          (context, item, isSelected, onItemSelect) =>
+                              customBarTextWithLogo(
+                                title: item.name ?? '',
+                                logoUrl: item.logoUrl,
+                              ),
+                      headerBuilder: (context, selectedItem, enabled) =>
+                          customBarTextWithLogo(
+                            title: selectedItem.name ?? '',
+                            logoUrl: selectedItem.logoUrl,
+                          ),
+                      items: asyncSnapshot.data,
+                      onChanged: (p0) {},
+                    );
+                  },
+                ),
                 Row(
                   children: [
                     Expanded(

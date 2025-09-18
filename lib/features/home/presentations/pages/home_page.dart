@@ -1,9 +1,15 @@
+import 'dart:developer';
+
 import 'package:ecommerce_app/app/core/route/app_route.dart';
+import 'package:ecommerce_app/app/core/storage/secure_storage.dart';
+import 'package:ecommerce_app/app/di/injector.dart';
+import 'package:ecommerce_app/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:ecommerce_app/features/home/presentations/bloc/dashboard_bloc.dart';
 import 'package:ecommerce_app/features/home/presentations/bloc/dashboard_event.dart';
 import 'package:ecommerce_app/features/home/presentations/bloc/dashboard_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -57,9 +63,80 @@ Drawer _buildDrawer(BuildContext context) {
           title: const Text('Settings'),
           onTap: () => Navigator.pushNamed(context, '/settings'),
         ),
+
+        ListTile(
+          leading: const Icon(Icons.logout),
+          title: const Text('Logout'),
+          onTap: () async {
+            var showDialog = await showLogoutDialog(context);
+            final res = await sl<LogoutUseCase>()();
+            log(res);
+            await SecureStorage().clear();
+            if (showDialog) {
+              await Navigator.pushNamed(context, AppRouter.loginRoute);
+            }
+          },
+        ),
       ],
     ),
   );
+}
+
+Future<bool> showLogoutDialog(BuildContext context) async {
+  return await showDialog<bool>(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Lottie animation
+                  SizedBox(
+                    height: 120,
+                    child: Lottie.asset(
+                      'assets/animations/error.json', // Replace with your Lottie file
+                      repeat: false,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Are you sure you want to logout?',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: const Text('Cancel'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
+                        child: const Text('Logout'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ) ??
+      false;
 }
 
 class _DashboardBody extends StatelessWidget {
@@ -81,7 +158,7 @@ class _DashboardBody extends StatelessWidget {
             icon: Icons.category,
             color: Colors.green,
             onTap: () => Navigator.pushNamed(context, '/add-category'),
-          ),  
+          ),
           DashboardItem(
             title: 'Add Brand',
             icon: Icons.branding_watermark,

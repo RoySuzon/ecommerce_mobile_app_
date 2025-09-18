@@ -1,3 +1,6 @@
+import 'package:dio/dio.dart';
+import 'package:ecommerce_app/app/core/route/app_route.dart';
+import 'package:ecommerce_app/app/di/injector.dart';
 import 'package:ecommerce_app/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:ecommerce_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:ecommerce_app/features/auth/domain/usecases/login_usecase.dart';
@@ -14,11 +17,9 @@ final authModeProvider = StateProvider<AuthMode>((ref) => AuthMode.login);
 
 // Inject dependencies
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
-  final remote = AuthRemoteDataSourceImpl();
-  final repo = AuthRepositoryImpl(remote);
   return AuthNotifier(
-    loginUseCase: LoginUseCase(repo),
-    signupUseCase: SignupUseCase(repo),
+    loginUseCase: sl<LoginUseCase>(),
+    signupUseCase: sl<SignupUseCase>(),
   );
 });
 
@@ -31,9 +32,9 @@ class AuthPage extends ConsumerStatefulWidget {
 
 class _AuthPageState extends ConsumerState<AuthPage> {
   final formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+  final emailController = TextEditingController(text: 'goutomroy770@gmail.com');
+  final passwordController = TextEditingController(text: '111111');
+  final confirmPasswordController = TextEditingController(text: '111111');
 
   @override
   void dispose() {
@@ -50,12 +51,19 @@ class _AuthPageState extends ConsumerState<AuthPage> {
 
     ref.listen<AuthState>(authProvider, (previous, next) {
       next.whenOrNull(
-        authenticated: (user) => ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Welcome ${user.email}'),
-            backgroundColor: Colors.green,
-          ),
-        ),
+        authenticated: (user) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Welcome ${user.email}'),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            AppRouter.dashboardRoute,
+            (route) => false,
+          );
+        },
         error: (msg) => ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(msg), backgroundColor: Colors.red),
         ),
@@ -64,26 +72,27 @@ class _AuthPageState extends ConsumerState<AuthPage> {
 
     void submit() {
       if (formKey.currentState!.validate()) {
-        if (authMode == AuthMode.login) {
-          ref
-              .read(authProvider.notifier)
-              .login(
-                emailController.text,
-                passwordController.text,
+        switch (authMode) {
+          case AuthMode.login:
+            ref
+                .read(authProvider.notifier)
+                .login(
+                  emailController.text,
+                  passwordController.text,
+                );
+          case AuthMode.signup:
+            if (passwordController.text != confirmPasswordController.text) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Passwords do not match')),
               );
-        } else {
-          if (passwordController.text != confirmPasswordController.text) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Passwords do not match')),
-            );
-            return;
-          }
-          ref
-              .read(authProvider.notifier)
-              .signup(
-                emailController.text,
-                passwordController.text,
-              );
+              return;
+            }
+            ref
+                .read(authProvider.notifier)
+                .signup(
+                  emailController.text,
+                  passwordController.text,
+                );
         }
       }
     }

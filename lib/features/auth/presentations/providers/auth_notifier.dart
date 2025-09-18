@@ -12,19 +12,22 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   Future<void> login(String email, String password) async {
     state = const AuthState.loading();
-    try {
-      final user = await loginUseCase(email, password);
-      state = AuthState.authenticated(user);
-    } catch (e) {
-      state = AuthState.error(e.toString());
-    }
+
+    final user = await loginUseCase(email, password);
+    state = user.fold(
+      AuthState.error,
+      AuthState.authenticated,
+    );
   }
 
   Future<void> signup(String email, String password) async {
     state = const AuthState.loading();
     try {
       final user = await signupUseCase(email, password);
-      state = AuthState.authenticated(user);
+      state = user.fold(
+        AuthState.error,
+        AuthState.authenticated,
+      );
     } catch (e) {
       state = AuthState.error(e.toString());
     }

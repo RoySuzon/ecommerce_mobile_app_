@@ -1,3 +1,5 @@
+import 'package:fpdart/fpdart.dart';
+
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_datasource.dart';
@@ -8,12 +10,17 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this.remote);
 
   @override
-  Future<UserEntity> login(String email, String password) {
-    return remote.login(email, password);
-  }
+  Future<Either<String, UserCredentials>> login(
+    String email,
+    String password,
+  ) async => remote.login(email, password);
 
   @override
-  Future<UserEntity> signup(String email, String password) {
-    return remote.signup(email, password);
-  }
+  Future<Either<String, UserCredentials>> signup(
+    String email,
+    String password,
+  ) async => remote.signup(email, password);
+
+  @override
+  Future<String> logout() => remote.logout();
 }
