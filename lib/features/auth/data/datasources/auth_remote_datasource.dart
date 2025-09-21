@@ -6,7 +6,7 @@ import '../../domain/entities/user.dart';
 abstract class AuthRemoteDataSource {
   Future<Either<String, UserCredentials>> login(String email, String password);
   Future<Either<String, UserCredentials>> signup(String email, String password);
-  Future<String> logout();
+  Future<Either<String, Map<String, dynamic>>> logout();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -74,23 +74,23 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<String> logout() async {
+  Future<Either<String, Map<String, dynamic>>> logout() async {
     try {
       final res = await dio.post<dynamic>(ApiEndPoints.logout);
 
       if (res.statusCode == 200) {
-        return res.data['data']['message'].toString();
+        return right({'message': res.data['data']['message'].toString()});
       } else {
-        return res.data['message'].toString();
+        return Left(res.data['message'].toString());
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        return e.response?.data['message']?.toString() ?? 'Server error';
+        return left(e.response?.data['message']?.toString() ?? 'Server error');
       } else {
-        return 'Network error: ${e.message}';
+        return left('Network error: ${e.message}');
       }
     } catch (e) {
-      return 'Unexpected error: $e';
+      return left('Unexpected error: $e');
     }
   }
 }

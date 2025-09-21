@@ -1,8 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:ecommerce_app/app/core/route/app_route.dart';
 import 'package:ecommerce_app/app/di/injector.dart';
-import 'package:ecommerce_app/features/auth/data/datasources/auth_remote_datasource.dart';
-import 'package:ecommerce_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:ecommerce_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:ecommerce_app/features/auth/domain/usecases/signup_usecase.dart';
 import 'package:flutter/material.dart';
@@ -16,12 +13,12 @@ enum AuthMode { login, signup }
 final authModeProvider = StateProvider<AuthMode>((ref) => AuthMode.login);
 
 // Inject dependencies
-final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
-  return AuthNotifier(
+final authProvider = StateNotifierProvider<AuthNotifier, AuthState>(
+  (ref) => AuthNotifier(
     loginUseCase: sl<LoginUseCase>(),
     signupUseCase: sl<SignupUseCase>(),
-  );
-});
+  ),
+);
 
 class AuthPage extends ConsumerStatefulWidget {
   const AuthPage({super.key});

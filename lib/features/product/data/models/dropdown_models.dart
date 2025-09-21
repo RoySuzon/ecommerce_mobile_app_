@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/features/category/domain/entity/category_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'dropdown_models.freezed.dart';
@@ -16,15 +17,17 @@ sealed class BrandModel with _$BrandModel {
 }
 
 @freezed
-sealed class CategoryModel with _$CategoryModel {
+sealed class CategoryModel with _$CategoryModel  {
   const factory CategoryModel({
-    required int id,
-    required String name,
+     num? id,
+     String? name,
   }) = _CategoryModel;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>
       _$CategoryModelFromJson(json);
 }
+
+
 
 @freezed
 sealed class AvailabilityModel with _$AvailabilityModel {

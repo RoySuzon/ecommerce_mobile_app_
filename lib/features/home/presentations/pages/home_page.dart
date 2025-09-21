@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ecommerce_app/app/core/route/app_route.dart';
 import 'package:ecommerce_app/app/core/storage/secure_storage.dart';
 import 'package:ecommerce_app/app/di/injector.dart';
@@ -21,14 +19,14 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Admin Dashboard'),
-          actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
-            const CircleAvatar(
-              // backgroundImage: AssetImage('assets/admin_avatar.png'),
-            ),
-            const SizedBox(width: 16),
-          ],
+          // actions: [
+          // IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+          // IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
+          // const CircleAvatar(
+          //   // backgroundImage: AssetImage('assets/admin_avatar.png'),
+          // ),
+          // const SizedBox(width: 16),
+          // ],
         ),
         drawer: _buildDrawer(context),
         body: const _DashboardBody(),
@@ -69,16 +67,80 @@ Drawer _buildDrawer(BuildContext context) {
           title: const Text('Logout'),
           onTap: () async {
             var showDialog = await showLogoutDialog(context);
-            final res = await sl<LogoutUseCase>()();
-            log(res);
-            await SecureStorage().clear();
             if (showDialog) {
-              await Navigator.pushNamed(context, AppRouter.loginRoute);
+              Navigator.pop(context);
+              final res = await sl<LogoutUseCase>()();
+              await res.fold(
+                (l) async {
+                  await showForceLogoutDialog(
+                    context,
+                    onLogout: () async {
+                      await SecureStorage().clear();
+                      await Navigator.pushNamed(context, AppRouter.loginRoute);
+                    },
+                  );
+                },
+                (r) async {
+                  await SecureStorage().clear();
+
+                  await Navigator.pushNamed(context, AppRouter.loginRoute);
+                },
+              );
             }
           },
         ),
       ],
     ),
+  );
+}
+
+Future<void> showForceLogoutDialog(
+  BuildContext context, {
+  required VoidCallback onLogout,
+}) async {
+  await showDialog<dynamic>(
+    context: context,
+    barrierDismissible: false, // User cannot dismiss by tapping outside
+    builder: (context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Lottie animation (optional)
+              SizedBox(
+                height: 120,
+                child: Lottie.asset(
+                  'assets/animations/crown.json',
+                  // repeat: false,
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'You have been logged out!',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Please login again to continue using the app.',
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: onLogout,
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                child: const Text('Login Again'),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
   );
 }
 
@@ -148,25 +210,25 @@ class _DashboardBody extends StatelessWidget {
       builder: (context, state) {
         final adminActions = <DashboardItem>[
           DashboardItem(
-            title: 'Add Product',
+            title: 'Product',
             icon: Icons.add_box,
             color: Colors.blue,
             onTap: () => Navigator.pushNamed(context, AppRouter.addproduct),
           ),
           DashboardItem(
-            title: 'Add Category',
+            title: 'Category',
             icon: Icons.category,
             color: Colors.green,
-            onTap: () => Navigator.pushNamed(context, '/add-category'),
+            onTap: () => Navigator.pushNamed(context, AppRouter.categoryRoute),
           ),
           DashboardItem(
-            title: 'Add Brand',
+            title: 'Brand',
             icon: Icons.branding_watermark,
             color: Colors.orange,
             onTap: () => Navigator.pushNamed(context, '/add-brand'),
           ),
           DashboardItem(
-            title: 'Add Specification',
+            title: 'Specification',
             icon: Icons.list_alt,
             color: Colors.purple,
             onTap: () => Navigator.pushNamed(context, '/add-specification'),

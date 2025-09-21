@@ -22,5 +22,5 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async => remote.signup(email, password);
 
   @override
-  Future<String> logout() => remote.logout();
+  Future<Either<String, Map<String, dynamic>>> logout() => remote.logout();
 }

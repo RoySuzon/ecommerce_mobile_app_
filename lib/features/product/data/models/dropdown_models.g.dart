@@ -20,10 +20,7 @@ Map<String, dynamic> _$BrandModelToJson(_BrandModel instance) =>
     };
 
 _CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) =>
-    _CategoryModel(
-      id: (json['id'] as num).toInt(),
-      name: json['name'] as String,
-    );
+    _CategoryModel(id: json['id'] as num?, name: json['name'] as String?);
 
 Map<String, dynamic> _$CategoryModelToJson(_CategoryModel instance) =>
     <String, dynamic>{'id': instance.id, 'name': instance.name};

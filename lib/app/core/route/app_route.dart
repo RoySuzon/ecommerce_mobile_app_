@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/app/core/route/common_pages/lost_in_space_page.dart';
 import 'package:ecommerce_app/features/auth/presentations/pages/auth_page.dart';
+import 'package:ecommerce_app/features/category/presentations/pages/categrory_page.dart';
 import 'package:ecommerce_app/features/home/presentations/pages/home_page.dart';
 import 'package:ecommerce_app/features/product/data/presentations/pages/product_create_page.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,10 @@ class AppRouter {
       case addproduct:
         return MaterialPageRoute(
           builder: (_) => const ProductCreatePage(),
+        );
+      case categoryRoute:
+        return MaterialPageRoute(
+          builder: (_) =>  CategoryPage(),
         );
       default:
         // Fallback: show error page for unknown routes
