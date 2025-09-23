@@ -7,18 +7,18 @@ class CategoryRepositoryImpl implements CategoryRepository {
   final CategoryDataSource dataSource;
   CategoryRepositoryImpl(this.dataSource);
   @override
-  Future<Either<String, CategoryModel>> addCategory(
+  Future<Either<String, CategoryModel>> addBrand(
     CategoryModel category,
   ) async => dataSource.insertCategory(category);
 
   @override
-  Future<Either<String, CategoryModel>> deleteCategory(String id) {
+  Future<Either<String, CategoryModel>> deleteBrand(String id) {
     // TODO: implement deleteCategory
     throw UnimplementedError();
   }
 
   @override
-  Future<Either<String, List<CategoryModel>>> getCategories(
+  Future<Either<String, List<CategoryModel>>> getBrand(
     String name,
   ) async => await dataSource.fetchCategory(name);
 

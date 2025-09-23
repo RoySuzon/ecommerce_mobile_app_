@@ -9,5 +9,5 @@ class CategoryGetUsecase {
   });
 
   Future<Either<String, List<CategoryModel>>> call({String name = ''}) async =>
-      repo.getCategories(name);
+      repo.getBrand(name);
 }

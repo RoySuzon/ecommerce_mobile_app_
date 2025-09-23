@@ -10,33 +10,26 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
   CategoryNotifier({
     required this.categoryGetUsecase,
     required this.addCategoryUsecase,
-  }) : super(const CategoryState.initial());
+  }) : super(const CategoryState.initial()) {
+    categories();
+  }
 
   Future<void> categories({String name = ''}) async {
     state = const CategoryState.loading();
-    // await Future.delayed(const Duration(seconds: 2));
     final result = await categoryGetUsecase(name: name);
-    if (mounted) {
-      state = result.fold(CategoryState.error, CategoryState.loaded);
-    }
+    if (!mounted) return;
+    state = result.fold(CategoryState.error, CategoryState.loaded);
   }
 
   Future<void> addCategory(CategoryModel category) async {
+    final oldCategories = state.whenOrNull(loaded: (categories) => categories);
     state = const CategoryState.loading();
-
     final result = await addCategoryUsecase(category);
-
     if (!mounted) return;
-
     state = result.fold(
       CategoryState.error,
-      (newCategory) {
-        return state.maybeWhen(
-          loaded: (categories) =>
-              CategoryState.loaded([...categories, newCategory]),
-          orElse: () => CategoryState.loaded([newCategory]),
-        );
-      },
+      (newCategory) =>
+          CategoryState.loaded([newCategory, ...oldCategories ?? []]),
     );
   }
 }

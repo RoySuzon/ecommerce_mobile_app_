@@ -225,7 +225,7 @@ class _DashboardBody extends StatelessWidget {
             title: 'Brand',
             icon: Icons.branding_watermark,
             color: Colors.orange,
-            onTap: () => Navigator.pushNamed(context, '/add-brand'),
+            onTap: () => Navigator.pushNamed(context, AppRouter.brandRoute),
           ),
           DashboardItem(
             title: 'Specification',

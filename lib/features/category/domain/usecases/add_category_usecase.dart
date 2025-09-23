@@ -9,5 +9,5 @@ class AddCategoryUsecase {
   });
 
   Future<Either<String, CategoryModel>> call(CategoryModel category) async =>
-      repo.addCategory(category);
+      repo.addBrand(category);
 }
